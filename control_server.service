@@ -1,0 +1,11 @@
+[Unit]
+Description=Web Server for CEC control
+After=network-online.target
+
+[Service]
+User=pi
+Environment=PYTHONPATH=$PYTHONPATH:/home/pytomation/
+ExecStart=/usr/bin/python /home/pi/Control-Server/control_server/control_server.py
+
+[Install]
+WantedBy=multi-user.target

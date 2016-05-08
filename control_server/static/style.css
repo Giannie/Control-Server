@@ -1,0 +1,44 @@
+.grid {
+  align-items: center;
+  justify-content: space-around;
+}
+
+.vert {
+  height: 100%;
+  display:-webkit-flex;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+
+.grid__row {
+  display:-webkit-flex;
+  display: flex;
+  text-align: center;
+}
+
+.grid__item {
+  flex: 1;
+}
+
+.dir__button{
+  width: 100%;
+}
+
+.dir__image{
+  width: auto;
+  max-height: 50px;
+  -webkit-touch-callout: none;
+}
+
+.media__image{
+  width: auto;
+  max-height: 50px;
+  -webkit-touch-callout: none;
+}
+
+.control_button{
+  width: 100%;
+  height:50px;
+}

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css')}}">
+<meta name="viewport" content="height=device-height, width=device-width, initial-scale=1, maximum-scale=1">
+</head>
+<body>
+<div class="vert">
+<div class="grid">
+  <div class="grid__row">
+    <div class="grid__item"></div>
+    <div class="grid__item">
+    <!--  <button class="dir__button" name="up" onclick="sendCommand(this)">Up</button> -->
+    <img class="dir__image" name="up" src="{{ url_for('static', filename='arrows-up.svg')}}"/>
+    </div>
+    <div class="grid__item"></div>
+  </div>
+  <div class="grid__row">
+    <div class="grid__item">
+      <img class="dir__image" name="left" src="{{ url_for('static', filename='arrows-left.svg')}}"/>
+      <!-- <button class="dir__button" name="left" onclick="sendCommand(this)">Left</button> -->
+    </div>
+    <div class="grid__item"></div>
+    <div class="grid__item">
+      <!-- <button class="dir__button" name="right" onclick="sendCommand(this)">Right</button> -->
+      <img class="dir__image" name="right" src="{{ url_for('static', filename='arrows-right.svg')}}"/>
+    </div>
+  </div>
+  <div class="grid__row">
+    <div class="grid__item"></div>
+    <div class="grid__item">
+      <!-- <button class="dir__button" name="down" onclick="sendCommand(this)">Down</button> -->
+      <img class="dir__image" name="down" src="{{ url_for('static', filename='arrows-down.svg')}}"/>
+    </div>
+    <div class="grid__item"></div>
+  </div>
+</div>
+  <div class="grid__row">
+    <div class="grid__item">
+      <img class="dir__image" name="rewind" src="{{ url_for('static', filename='rewind.svg')}}"/>
+    </div>
+    <div class="grid__item">
+      <img class="media__image" name="select" src="{{ url_for('static', filename='play.svg')}}"/>
+    </div>
+    <div class="grid__item">
+      <img class="dir__image" name="fast_forward" src="{{ url_for('static', filename='forward.svg')}}"/>
+    </div>
+  </div>
+  <div class="grid__row">
+    <div class="grid__item">
+      <button class="control_button" name="select" onclick="sendCommand(this)">OK</button>
+    </div>
+    <div class="grid__item">
+      <button class="control_button" name="back" onclick="sendCommand(this)">Back</button>
+    </div>
+  </div>
+  <div class="grid__row">
+    <div class="grid__item">
+      <button class="control_button" name="root_menu" onclick="sendCommand(this)">Menu</button>
+    </div>
+  </div>
+  <div class="grid__row">
+    <div class="grid__item">
+      <button class="control_button" name="dvd_menu" onclick="sendCommand(this)">DVD Menu</button>
+    </div>
+  </div>
+</div>
+<script>
+function httpGetAsync(cmd)
+{
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open("GET", "/ps4_command/" + cmd, true); // true for asynchronous
+    xmlHttp.send(null);
+}
+function sendCommand(element)
+{
+    httpGetAsync(element.name)
+}
+function mouseDownCommand(element){
+  sendCommand(element)
+  myInterval = setInterval(function(){ sendCommand(element) }, 250);
+  setTimeout(function(){ speedUp(element) }, 750);
+}
+function speedUp(element) {
+  if (myInterval) {
+    clearInterval(myInterval);
+    myInterval = setInterval(function(){ sendCommand(element) }, 120);
+  }
+}
+function mouseUpCommand(){
+  clearInterval(myInterval)
+  myInterval = false;
+}
+function removeMobileOnclick() {
+    if(isNotMobile()) {
+        var x = document.querySelectorAll('.dir__image')
+        var i;
+        for (i = 0; i < x.length; i++) {
+          x[i].onmousedown  = function() { mouseDownCommand(this) };
+          x[i].onmouseup  = function () { mouseUpCommand() };
+        }
+        var x = document.querySelectorAll('.media__image')
+        var i;
+        for (i = 0; i < x.length; i++) {
+          x[i].onmousedown  = function() { sendCommand(this) };
+        }
+    }
+    else {
+      var x = document.querySelectorAll('.dir__image')
+      var i;
+      for (i = 0; i < x.length; i++) {
+        x[i].ontouchstart = function() { mouseDownCommand(this) };
+        x[i].ontouchend  = function () { mouseUpCommand() };
+      }
+      x = document.querySelectorAll('.control_button')
+      for (i=0; i<x.length; i++) {
+        x[i].onclick = '';
+        x[i].ontouchstart  = function() { sendCommand(this) };
+      }
+      x = document.querySelectorAll('.media__image')
+      for (i=0; i<x.length; i++) {
+        x[i].onclick = '';
+        x[i].ontouchstart  = function() { sendCommand(this) };
+      }
+    }
+}
+
+function isNotMobile() {
+    if (navigator.userAgent.match(/Android/i)
+            || navigator.userAgent.match(/iPhone/i)
+            || navigator.userAgent.match(/iPad/i)
+            || navigator.userAgent.match(/iPod/i)
+            || navigator.userAgent.match(/BlackBerry/i)
+            || navigator.userAgent.match(/Windows Phone/i)
+            || navigator.userAgent.match(/Opera Mini/i)
+            || navigator.userAgent.match(/IEMobile/i)
+            ) {
+        return false;
+    } else { return true };
+
+}
+window.addEventListener('load', removeMobileOnclick);
+</script>
+</body>
+</html>
