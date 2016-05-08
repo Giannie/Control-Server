@@ -1,0 +1,10 @@
+[Unit]
+Description=Script to monitor tv status
+After=network-online.target
+
+[Service]
+User=pi
+ExecStart=/usr/bin/python /home/pi/Control-Server/tv_monitor.py
+
+[Install]
+WantedBy=multi-user.target
