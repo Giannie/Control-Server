@@ -5,6 +5,7 @@ import re
 import requests
 import subprocess
 import remote_command
+import nc_mochad
 
 app = Flask(__name__)
 
@@ -12,7 +13,9 @@ app.secret_key = "NoneYaBusiness"
 
 app = Flask(__name__)
 
-x10 = cm11a.CM11a(Serial("/dev/x10serial", 4800))
+nc = nc_mochad.nc('localhost', 1099)
+
+x10 = nc_mochad.x10(nc)
 
 x10_url_dict = {"A1": "http://remote.local:5500",
                 "A2": "http://bedroom.local:5500",
