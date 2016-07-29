@@ -20,7 +20,7 @@ class nc:
                 break
             buff = "%s%s" % (buff, data)
         s.close()
-        if len(self.messages >= 100):
+        if len(self.messages) >= 100:
             self.messages = self.messages[1:]
         self.mesages.append(buff)
 
