@@ -8,7 +8,7 @@ class nc:
 
     def send(self, content):
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s.connect((self.hostname, self.port))
+        s.connect(self.hostname, self.port)
         s.sendall(b"%s\n" % content)
         s.shutdown(socket.SHUT_WR)
 
