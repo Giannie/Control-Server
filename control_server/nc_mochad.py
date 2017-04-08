@@ -22,7 +22,7 @@ class nc:
         s.close()
         if len(self.messages) >= 100:
             self.messages = self.messages[1:]
-        self.mesages.append(buff)
+        self.messages.append(buff)
 
 class x10:
     def __init__(self, nci):
